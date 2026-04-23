@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "SkillAdda",
@@ -13,9 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* We moved the background and text colors right here! */}
-      <body className="bg-slate-50 text-slate-900 antialiased">
-        {children}
+      {/* flex and min-h-screen ensure the footer gets pushed to the bottom */}
+      <body className="bg-slate-50 text-slate-900 antialiased flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

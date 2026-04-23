@@ -34,7 +34,7 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-05-20',
     price: 1000,
     instructor: 'Farhan Ahmed',
-    imageUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000'
   },
   {
     id: 'w3',
@@ -69,8 +69,8 @@ export const mockWorkshops: Workshop[] = [
     location: 'Dhaka',
     date: '2026-07-10',
     price: 800,
-    instructor: 'Sazidul Islam', 
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000'
+    instructor: 'Sazidul Islam Hira',
+    imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1000'
   },
   {
     id: 'w6',
@@ -82,6 +82,42 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-07-22',
     price: 0,
     instructor: 'Priya Saha',
-    imageUrl: 'https://images.unsplash.com/photo-1607799279861-4dd38a8f94cb?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&q=80&w=1000' 
+  },
+  {
+    id: 'w7',
+    title: 'Federated Learning & Malware Classification',
+    shortDescription: 'Privacy-preserving AI architectures for robust malware defense.',
+    fullDescription: 'An advanced session on training machine learning models across decentralized edge devices without exchanging raw data, specifically focusing on malware classification frameworks.',
+    category: 'AI & Data',
+    location: 'Chattogram',
+    date: '2026-08-05',
+    price: 1200,
+    instructor: 'Mr. Khandaker Tayef Shahriar',
+    imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'w8',
+    title: 'Modern Web UI & Component Architecture',
+    shortDescription: 'Structuring scalable and reusable UI elements.',
+    fullDescription: 'Learn how to break down complex interfaces into manageable, reusable React components while leveraging Tailwind CSS for rapid styling.',
+    category: 'UI/UX',
+    location: 'Online',
+    date: '2026-08-15',
+    price: 400,
+    instructor: 'Md. Tasin Islam',
+    imageUrl: 'https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'w9',
+    title: 'Cybersecurity Threat Modeling',
+    shortDescription: 'Proactive defense strategies for modern web infrastructure.',
+    fullDescription: 'Understand how to identify vulnerabilities, assess risks, and implement robust security protocols in your applications before deploying them to production.',
+    category: 'Cybersecurity',
+    location: 'Dhaka',
+    date: '2026-09-01',
+    price: 600,
+    instructor: 'Md. Obaidul Amin',
+    imageUrl: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80&w=1000'
   }
 ];

@@ -3,19 +3,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      {/* 1. Navbar (Placeholder) */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-100 p-4 shadow-sm">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">SkillAdda</h1>
-          <nav className="space-x-4">
-            <Link href="/items" className="text-gray-600 hover:text-blue-600">Workshops</Link>
-            <Link href="/about" className="text-gray-600 hover:text-blue-600">About</Link>
-            <Link href="/login" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-              Login
-            </Link>
-          </nav>
-        </div>
-      </header>
 
       <main className="flex-grow">
         {/* 2. Hero Section */}
@@ -37,10 +24,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 7. Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 text-center">
-        <p>&copy; {new Date().getFullYear()} SkillAdda. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
