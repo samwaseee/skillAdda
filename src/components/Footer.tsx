@@ -1,5 +1,4 @@
 import Link from 'next/link';
-// We changed this line to use react-icons!
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 export default function Footer() {

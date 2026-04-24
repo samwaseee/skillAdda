@@ -9,6 +9,7 @@ export interface Workshop {
   price: number;
   instructor: string;
   imageUrl: string;
+  ownerEmail: string; // <-- New Parameter!
 }
 
 export const mockWorkshops: Workshop[] = [
@@ -22,7 +23,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-05-15',
     price: 500,
     instructor: 'Dr. Hasan Mahmud',
-    imageUrl: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'test@skilladda.com' // You will see this if you log in with test@skilladda.com
   },
   {
     id: 'w2',
@@ -34,7 +36,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-05-20',
     price: 1000,
     instructor: 'Farhan Ahmed',
-    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'otheruser@gmail.com' // You will NOT see this
   },
   {
     id: 'w3',
@@ -46,7 +49,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-06-05',
     price: 0,
     instructor: 'Nadia Rahman',
-    imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'test@skilladda.com' 
   },
   {
     id: 'w4',
@@ -58,7 +62,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-06-12',
     price: 300,
     instructor: 'Rafiq Islam',
-    imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'admin@skilladda.com'
   },
   {
     id: 'w5',
@@ -70,7 +75,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-07-10',
     price: 800,
     instructor: 'Sazidul Islam Hira',
-    imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'test@skilladda.com'
   },
   {
     id: 'w6',
@@ -82,7 +88,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-07-22',
     price: 0,
     instructor: 'Priya Saha',
-    imageUrl: 'https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&q=80&w=1000' 
+    imageUrl: 'https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'priya@gmail.com'
   },
   {
     id: 'w7',
@@ -94,7 +101,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-08-05',
     price: 1200,
     instructor: 'Mr. Khandaker Tayef Shahriar',
-    imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'test@skilladda.com'
   },
   {
     id: 'w8',
@@ -106,7 +114,8 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-08-15',
     price: 400,
     instructor: 'Md. Tasin Islam',
-    imageUrl: 'https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'tasin@skilladda.com'
   },
   {
     id: 'w9',
@@ -118,6 +127,7 @@ export const mockWorkshops: Workshop[] = [
     date: '2026-09-01',
     price: 600,
     instructor: 'Md. Obaidul Amin',
-    imageUrl: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80&w=1000'
+    imageUrl: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80&w=1000',
+    ownerEmail: 'obaidul@skilladda.com'
   }
 ];

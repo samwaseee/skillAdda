@@ -9,17 +9,14 @@ import Link from 'next/link';
 import { auth, googleProvider } from '@/src/lib/firebase';
 
 export default function LoginPage() {
-  // State for toggling between Login and Register mode
   const [isLogin, setIsLogin] = useState(true);
   
-  // State for form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
   const router = useRouter();
 
-  // Handle Email & Password Submit
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -32,17 +29,14 @@ export default function LoginPage() {
         await createUserWithEmailAndPassword(auth, email, password);
         toast.success('Account created successfully!');
       }
-      // Rubric Requirement: Redirect to / after login
       router.push('/'); 
     } catch (error: any) {
-      // Firebase throws specific errors, we catch them and show a toast
       toast.error(error.message || 'Authentication failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
-  // Handle Google Login
+  
   const handleGoogleAuth = async () => {
     try {
       await signInWithPopup(auth, googleProvider);

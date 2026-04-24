@@ -4,7 +4,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 
-// Define what our context will hold
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -20,13 +19,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This Firebase listener triggers whenever the user logs in or out
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -37,5 +34,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Custom hook so we can easily grab the user anywhere in the app
 export const useAuth = () => useContext(AuthContext);
