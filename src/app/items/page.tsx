@@ -1,43 +1,108 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import { mockWorkshops } from '@/src/lib/data';
 import WorkshopCard from '@/src/components/WorkshopCard';
+import { Search } from 'lucide-react';
 
 export default function WorkshopsPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationFilter, setLocationFilter] = useState('All Locations');
+  const [categoryFilter, setCategoryFilter] = useState('All Categories');
+
+  const filteredWorkshops = useMemo(() => {
+    return mockWorkshops.filter((workshop) => {
+      const matchesSearch = workshop.title.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesLocation = locationFilter === 'All Locations' || workshop.location === locationFilter;
+      
+      const matchesCategory = categoryFilter === 'All Categories' || workshop.category === categoryFilter;
+
+      return matchesSearch && matchesLocation && matchesCategory;
+    });
+  }, [searchQuery, locationFilter, categoryFilter]);
+
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header & Filters (Placeholders for now) */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        {/* Header & Filters Area */}
+        <div className="mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">
               Explore Workshops
             </h1>
-            <p className="mt-2 text-gray-600">
+            <p className="text-gray-600">
               Find the perfect tech event to upgrade your skills.
             </p>
           </div>
           
-          {/* We will add real interactivity to these filters later */}
-          <div className="flex gap-2">
-            <select className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>All Locations</option>
-              <option>Dhaka</option>
-              <option>Chattogram</option>
+          {/* Controls: Search & Dropdowns */}
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+            
+            {/* Search Bar */}
+            <div className="relative flex-grow sm:max-w-xs">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search workshops..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 w-full bg-white border border-gray-200 text-gray-900 py-2.5 px-4 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              />
+            </div>
+
+            {/* Location Filter */}
+            <select 
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              className="bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition cursor-pointer appearance-none"
+            >
+              <option value="All Locations">All Locations</option>
+              <option value="Dhaka">Dhaka</option>
+              <option value="Chattogram">Chattogram</option>
+              <option value="Sylhet">Sylhet</option>
+              <option value="Online">Online</option>
             </select>
-            <select className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>All Categories</option>
-              <option>Web Dev</option>
-              <option>AI & Data</option>
+
+            {/* Category Filter */}
+            <select 
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition cursor-pointer appearance-none"
+            >
+              <option value="All Categories">All Categories</option>
+              <option value="Web Dev">Web Dev</option>
+              <option value="AI & Data">AI & Data</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+              <option value="UI/UX">UI/UX</option>
             </select>
           </div>
         </div>
 
         {/* The Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockWorkshops.map((workshop) => (
-            <WorkshopCard key={workshop.id} workshop={workshop} />
-          ))}
-        </div>
+        {filteredWorkshops.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredWorkshops.map((workshop) => (
+              <WorkshopCard key={workshop.id} workshop={workshop} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No workshops found</h3>
+            <p className="text-gray-500">Try adjusting your search or filters to find what you're looking for.</p>
+            <button 
+              onClick={() => {
+                setSearchQuery(''); setLocationFilter('All Locations'); setCategoryFilter('All Categories');
+              }}
+              className="mt-4 text-blue-600 font-semibold hover:underline"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
 
       </div>
     </div>

@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
 
-      <main className="flex-grow">
+      <main className="grow">
         {/* 2. Hero Section */}
         <section className="bg-white py-20 text-center px-4">
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
