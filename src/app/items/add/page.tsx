@@ -4,8 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ProtectedRoute from '@/src/components/ProtectedRoute';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/src/lib/firebase';
+import { useAuth } from '@/src/context/AuthContext';
 
 export default function AddWorkshopPage() {
+  const {user} = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,12 +33,19 @@ export default function AddWorkshopPage() {
     setIsSubmitting(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-      toast.success('Workshop published successfully!');
-      
+      const newWorkshop = {
+        ...formData,
+        price: Number(formData.price),
+        ownerEmail: user?.email || 'unknown',
+        createdAt: new Date().toISOString(),
+      };
+
+      await addDoc(collection(db, 'workshops'), newWorkshop);
+
+      toast.success('Workshop published to Firestore!');
       router.push('/items');
     } catch (error) {
+      console.error(error);
       toast.error('Failed to publish workshop.');
     } finally {
       setIsSubmitting(false);
@@ -45,7 +56,7 @@ export default function AddWorkshopPage() {
     <ProtectedRoute>
       <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          
+
           <div className="mb-8">
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Host a New Workshop</h1>
             <p className="text-gray-600 mt-2">Fill out the details below to publish your event to the community.</p>
@@ -53,7 +64,7 @@ export default function AddWorkshopPage() {
 
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              
+
               {/* Title Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Workshop Title *</label>
@@ -84,7 +95,7 @@ export default function AddWorkshopPage() {
                     <option value="UI/UX">UI/UX</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Location *</label>
                   <select

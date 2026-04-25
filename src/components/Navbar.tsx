@@ -3,19 +3,29 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { Menu, User, ChevronDown, LogOut, PlusCircle, LayoutDashboard } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { auth } from '@/src/lib/firebase';
 import { signOut } from 'firebase/auth';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../context/AuthContext';
-import { auth } from '../lib/firebase';
+import { useRouter, usePathname } from 'next/navigation'; // <-- Added usePathname
 
 export default function Navbar() {
   const { user, loading } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  
+  // Get the current URL path
+  const pathname = usePathname();
 
-  // dropdown closer
+  // Helper function to check if a link is active
+  const isActive = (path: string) => {
+    // Exact match for home page
+    if (path === '/') return pathname === '/';
+    // Partial match for other routes (so /items/add still highlights "Workshops")
+    return pathname.startsWith(path);
+  };
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -47,17 +57,53 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium transition">Home</Link>
-            <Link href="/items" className="text-gray-600 hover:text-blue-600 font-medium transition">Workshops</Link>
-            <Link href="/about" className="text-gray-600 hover:text-blue-600 font-medium transition">About</Link>
+          <nav className="hidden md:flex space-x-8 h-full items-center">
+            <Link 
+              href="/" 
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
+                isActive('/') 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              href="/items" 
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
+                isActive('/items') 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
+              }`}
+            >
+              Workshops
+            </Link>
+            <Link 
+              href="/about" 
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
+                isActive('/about') 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
+              }`}
+            >
+              About
+            </Link>
+            <Link 
+              href="/contact" 
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
+                isActive('/contact') 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
+              }`}
+            >
+              Contact
+            </Link>
           </nav>
 
           {/* Auth State & User Menu */}
           <div className="flex items-center space-x-4">
             {!loading && (
               user ? (
-                // LOGGED IN VIEW: User Dropdown
                 <div className="relative" ref={dropdownRef}>
                   <button 
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -66,13 +112,12 @@ export default function Navbar() {
                     <div className="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {user.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
-                    <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-30 truncate">
+                    <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-[120px] truncate">
                       {user.email}
                     </span>
                     <ChevronDown className="w-4 h-4 text-gray-500" />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-2">
                       <div className="px-4 py-2 border-b border-gray-100 mb-1">
@@ -111,7 +156,6 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                // LOGGED OUT VIEW: Login Button
                 <Link 
                   href="/login" 
                   className="hidden md:inline-flex bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-sm"

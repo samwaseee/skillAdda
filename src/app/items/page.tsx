@@ -1,26 +1,54 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { mockWorkshops } from '@/src/lib/data';
+import { useState, useMemo, useEffect } from 'react';
+import { Workshop } from '@/src/lib/data';
 import WorkshopCard from '@/src/components/WorkshopCard';
 import { Search } from 'lucide-react';
+import { db } from '@/src/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function WorkshopsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('All Locations');
   const [categoryFilter, setCategoryFilter] = useState('All Categories');
 
+  const [allWorkshops, setAllWorkshops] = useState<Workshop[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWorkshops = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'workshops'));
+        const firestoreData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Workshop[];
+
+        console.log("Data from Firebase:", firestoreData);
+        setAllWorkshops(firestoreData);
+      } catch (error) {
+        console.error("Error fetching from Firestore:", error);
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+
+    fetchWorkshops();
+  }, []);
+
   const filteredWorkshops = useMemo(() => {
-    return mockWorkshops.filter((workshop) => {
-      const matchesSearch = workshop.title.toLowerCase().includes(searchQuery.toLowerCase());
+    if (!allWorkshops) return [];
+
+    return allWorkshops.filter((workshop) => {
+
+      const matchesSearch = (workshop.title || '').toLowerCase().includes(searchQuery.toLowerCase());
       
       const matchesLocation = locationFilter === 'All Locations' || workshop.location === locationFilter;
-      
       const matchesCategory = categoryFilter === 'All Categories' || workshop.category === categoryFilter;
 
       return matchesSearch && matchesLocation && matchesCategory;
     });
-  }, [searchQuery, locationFilter, categoryFilter]);
+  }, [searchQuery, locationFilter, categoryFilter, allWorkshops]); 
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -41,7 +69,7 @@ export default function WorkshopsPage() {
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             
             {/* Search Bar */}
-            <div className="relative flex-grow sm:max-w-xs">
+            <div className="relative grow sm:max-w-xs">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
@@ -82,8 +110,13 @@ export default function WorkshopsPage() {
           </div>
         </div>
 
-        {/* The Grid */}
-        {filteredWorkshops.length > 0 ? (
+        {/* The main data */}
+        {isLoading ? (
+          <div className="py-20 flex flex-col justify-center items-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            <p className="text-gray-500 font-medium">Loading upcoming workshops...</p>
+          </div>
+        ) : filteredWorkshops.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredWorkshops.map((workshop) => (
               <WorkshopCard key={workshop.id} workshop={workshop} />
