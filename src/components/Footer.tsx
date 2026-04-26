@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 export default function Footer() {
   return (
@@ -29,9 +30,9 @@ export default function Footer() {
           <h3 className="text-white font-semibold mb-4">Connect With Us</h3>
           <div className="flex space-x-4 mb-6">
             {/* Updated the icons here to use the Fa prefix */}
-            <a href="#" className="hover:text-white transition"><FaGithub className="w-5 h-5" /></a>
-            <a href="#" className="hover:text-white transition"><FaTwitter className="w-5 h-5" /></a>
-            <a href="#" className="hover:text-white transition"><FaLinkedin className="w-5 h-5" /></a>
+            <a href="https://github.com/samwaseee" className="hover:text-white transition"><FaGithub className="w-5 h-5" /></a>
+            <a href="https://x.com/samwaseee" className="hover:text-white transition"><FaXTwitter className="w-5 h-5" /></a>
+            <a href="https://www.linkedin.com/in/samiur-rahman-wasi" className="hover:text-white transition"><FaLinkedin className="w-5 h-5" /></a>
           </div>
         </div>
       </div>

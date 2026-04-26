@@ -12,12 +12,10 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // Simulate a network request to a backend/email API
       await new Promise((resolve) => setTimeout(resolve, 1200));
       
       toast.success('Message sent successfully! We will get back to you soon.');
       
-      // Reset the form
       (e.target as HTMLFormElement).reset();
     } catch (error) {
       toast.error('Failed to send message. Please try again.');

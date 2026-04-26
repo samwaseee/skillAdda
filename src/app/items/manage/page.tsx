@@ -15,7 +15,6 @@ export default function ManageWorkshopsPage() {
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch only the user's workshops from Firestore
   useEffect(() => {
     const fetchUserWorkshops = async () => {
       if (!user?.email) return;
@@ -39,14 +38,13 @@ export default function ManageWorkshopsPage() {
     fetchUserWorkshops();
   }, [user]);
 
-  // Actually delete from the cloud
   const handleDelete = async (id: string) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this workshop?');
     
     if (isConfirmed) {
       try {
-        await deleteDoc(doc(db, 'workshops', id)); // Delete from Firestore
-        setWorkshops(workshops.filter((workshop) => workshop.id !== id)); // Remove from UI
+        await deleteDoc(doc(db, 'workshops', id));
+        setWorkshops(workshops.filter((workshop) => workshop.id !== id));
         toast.success('Workshop deleted successfully!');
       } catch (error) {
         toast.error('Failed to delete from database.');

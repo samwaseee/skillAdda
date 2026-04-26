@@ -6,14 +6,24 @@ export default function Home() {
     <div className="min-h-screen bg-slate-50">
       
       {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-white border-b border-gray-100">
-        <div className="absolute inset-0 bg-[url('https://grid.new/textures/grid-square.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32 relative z-10">
+      <section className="relative overflow-hidden border-b border-gray-100 min-h-[80vh] flex items-center">
+        
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=2000&q=80" 
+            alt="Students collaborating at a tech workshop" 
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-white/80 via-white/70 to-slate-50 backdrop-blur-[1px]"></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 w-full">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-6">
               Level Up Your <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-500">Tech Career</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+            <p className="text-xl text-gray-700 mb-10 leading-relaxed font-medium">
               Discover localized bootcamps, intensive coding workshops, and advanced tech seminars happening right near you. Learn from the best, build your network, and secure your future.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
@@ -25,7 +35,7 @@ export default function Home() {
               </Link>
               <Link 
                 href="/about" 
-                className="w-full sm:w-auto flex items-center justify-center bg-white text-gray-700 border border-gray-200 px-8 py-3.5 rounded-xl font-bold hover:bg-gray-50 transition hover:border-blue-500 shadow-sm"
+                className="w-full sm:w-auto flex items-center justify-center bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200 px-8 py-3.5 rounded-xl font-bold hover:bg-white transition shadow-sm"
               >
                 Our Mission
               </Link>

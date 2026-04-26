@@ -125,7 +125,6 @@ export default function WorkshopsPage() {
               ))}
             </div>
 
-            {/* NEW: Show More Button - Only displays if there are more items to load */}
             {visibleCount < filteredWorkshops.length && (
               <div className="mt-12 flex justify-center">
                 <button

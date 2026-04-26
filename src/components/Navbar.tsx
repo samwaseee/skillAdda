@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { auth } from '@/src/lib/firebase';
 import { signOut } from 'firebase/auth';
 import toast from 'react-hot-toast';
-import { useRouter, usePathname } from 'next/navigation'; // <-- Added usePathname
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const { user, loading } = useAuth();
@@ -15,14 +15,12 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   
-  // Get the current URL path
   const pathname = usePathname();
 
-  // Helper function to check if a link is active
   const isActive = (path: string) => {
-    // Exact match for home page
+
     if (path === '/') return pathname === '/';
-    // Partial match for other routes (so /items/add still highlights "Workshops")
+    
     return pathname.startsWith(path);
   };
 

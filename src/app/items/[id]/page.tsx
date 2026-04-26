@@ -8,16 +8,13 @@ import { Workshop } from '@/src/lib/data';
 export default async function ItemDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
 
-  // Fetch the single document from Firestore using the ID from the URL
   const docRef = doc(db, 'workshops', resolvedParams.id);
   const docSnap = await getDoc(docRef);
 
-  // If the ID doesn't exist in the database, show the 404 page
   if (!docSnap.exists()) {
     notFound();
   }
 
-  // Combine the Firestore ID with the document data
   const workshop = { id: docSnap.id, ...docSnap.data() } as Workshop;
 
   return (

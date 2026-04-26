@@ -9,5 +9,5 @@ export interface Workshop {
   price: number;
   instructor: string;
   imageUrl: string;
-  ownerEmail: string; // <-- New Parameter!
+  ownerEmail: string;
 }
