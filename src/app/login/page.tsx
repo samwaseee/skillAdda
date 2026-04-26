@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import toast from 'react-hot-toast';
@@ -8,14 +8,14 @@ import { FcGoogle } from 'react-icons/fc';
 import Link from 'next/link';
 import { auth, googleProvider } from '@/src/lib/firebase';
 
-export default function LoginPage() {
+function LoginContent() {
   const [isLogin, setIsLogin] = useState(true);
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const router = useRouter();
+  const router = useRouter(); 
 
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/';
@@ -134,5 +134,17 @@ export default function LoginPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[80vh] flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
