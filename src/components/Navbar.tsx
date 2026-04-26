@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { Righteous } from 'next/font/google';
 import { Menu, User, ChevronDown, LogOut, PlusCircle, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '@/src/lib/firebase';
@@ -9,18 +10,23 @@ import { signOut } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { useRouter, usePathname } from 'next/navigation';
 
+const righteousLogo = Righteous({
+    weight: '400',
+    subsets: ['latin']
+  });
+
 export default function Navbar() {
   const { user, loading } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  
+
   const pathname = usePathname();
 
   const isActive = (path: string) => {
 
     if (path === '/') return pathname === '/';
-    
+
     return pathname.startsWith(path);
   };
 
@@ -50,49 +56,47 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-extrabold text-blue-600 tracking-tight">SkillAdda</span>
+          <Link href="/" className="flex items-center group">
+            <span className={`text-3xl tracking-wide bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-cyan-500 group-hover:from-blue-500 group-hover:to-cyan-400 transition-all duration-300 ${righteousLogo.className}`}>
+              SkillAdda
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 h-full items-center">
-            <Link 
-              href="/" 
-              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
-                isActive('/') 
-                  ? 'border-blue-600 text-blue-600' 
+            <Link
+              href="/"
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${isActive('/')
+                  ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
-              }`}
+                }`}
             >
               Home
             </Link>
-            <Link 
-              href="/items" 
-              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
-                isActive('/items') 
-                  ? 'border-blue-600 text-blue-600' 
+            <Link
+              href="/items"
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${isActive('/items')
+                  ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
-              }`}
+                }`}
             >
               Workshops
             </Link>
-            <Link 
-              href="/about" 
-              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
-                isActive('/about') 
-                  ? 'border-blue-600 text-blue-600' 
+            <Link
+              href="/about"
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${isActive('/about')
+                  ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
-              }`}
+                }`}
             >
               About
             </Link>
-            <Link 
-              href="/contact" 
-              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${
-                isActive('/contact') 
-                  ? 'border-blue-600 text-blue-600' 
+            <Link
+              href="/contact"
+              className={`h-full flex items-center font-medium transition border-b-2 px-1 mt-0.5 ${isActive('/contact')
+                  ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-200'
-              }`}
+                }`}
             >
               Contact
             </Link>
@@ -103,14 +107,14 @@ export default function Navbar() {
             {!loading && (
               user ? (
                 <div className="relative" ref={dropdownRef}>
-                  <button 
+                  <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="flex items-center space-x-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg transition"
                   >
                     <div className="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {user.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
-                    <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-[120px] truncate">
+                    <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-30 truncate">
                       {user.email}
                     </span>
                     <ChevronDown className="w-4 h-4 text-gray-500" />
@@ -122,27 +126,27 @@ export default function Navbar() {
                         <p className="text-xs text-gray-500">Signed in as</p>
                         <p className="text-sm font-bold text-gray-900 truncate">{user.email}</p>
                       </div>
-                      
-                      <Link 
-                        href="/items/add" 
+
+                      <Link
+                        href="/items/add"
                         onClick={() => setIsDropdownOpen(false)}
                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
                       >
                         <PlusCircle className="w-4 h-4 mr-3" />
                         Add Workshop
                       </Link>
-                      
-                      <Link 
-                        href="/items/manage" 
+
+                      <Link
+                        href="/items/manage"
                         onClick={() => setIsDropdownOpen(false)}
                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
                       >
                         <LayoutDashboard className="w-4 h-4 mr-3" />
                         Manage Workshops
                       </Link>
-                      
+
                       <div className="border-t border-gray-100 mt-1 pt-1">
-                        <button 
+                        <button
                           onClick={handleLogout}
                           className="flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
                         >
@@ -154,15 +158,15 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <Link 
-                  href="/login" 
+                <Link
+                  href="/login"
                   className="hidden md:inline-flex bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-sm"
                 >
                   Login / Register
                 </Link>
               )
             )}
-            
+
             {/* Mobile Menu Button */}
             <button className="md:hidden p-2 text-gray-600 hover:text-blue-600">
               <Menu className="w-6 h-6" />

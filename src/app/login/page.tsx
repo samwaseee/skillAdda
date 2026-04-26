@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
@@ -17,6 +17,9 @@ export default function LoginPage() {
   
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
+
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -25,11 +28,12 @@ export default function LoginPage() {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success('Welcome back to SkillAdda!');
+
+        router.push(redirectTo);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         toast.success('Account created successfully!');
       }
-      router.push('/'); 
     } catch (error: any) {
       toast.error(error.message || 'Authentication failed. Please try again.');
     } finally {
@@ -41,7 +45,7 @@ export default function LoginPage() {
     try {
       await signInWithPopup(auth, googleProvider);
       toast.success('Successfully logged in with Google!');
-      router.push('/');
+      router.push(redirectTo);
     } catch (error: any) {
       toast.error('Google sign-in was cancelled or failed.');
     }

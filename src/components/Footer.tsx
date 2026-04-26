@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { Righteous } from 'next/font/google';
+
+const righteousLogo = Righteous({
+    weight: '400',
+    subsets: ['latin']
+  });
 
 export default function Footer() {
   return (
@@ -9,7 +15,9 @@ export default function Footer() {
         
         {/* Brand Section */}
         <div>
-          <span className="text-2xl font-extrabold text-white tracking-tight mb-4 block">SkillAdda</span>
+          <span className={`text-3xl tracking-wide bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-cyan-500 group-hover:from-blue-500 group-hover:to-cyan-400 transition-all duration-300 ${righteousLogo.className}`}>
+              SkillAdda
+            </span>
           <p className="text-sm leading-relaxed mb-4">
             Empowering the tech community in Bangladesh with localized, high-quality workshops and bootcamps.
           </p>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Trash2, Eye } from 'lucide-react';
+import { Trash2, Eye, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ProtectedRoute from '@/src/components/ProtectedRoute';
 import { db } from '@/src/lib/firebase';
@@ -114,6 +114,14 @@ export default function ManageWorkshopsPage() {
                             >
                               <Eye className="w-4 h-4 mr-1" /> View
                             </Link>
+
+                            <Link 
+                              href={`/items/edit/${workshop.id}`}
+                              className="text-amber-600 hover:text-amber-900 flex items-center bg-amber-50 px-3 py-1.5 rounded-md transition"
+                            >
+                              <Edit className="w-4 h-4 mr-1" /> Edit
+                            </Link>
+
                             <button 
                               onClick={() => handleDelete(workshop.id)}
                               className="text-red-600 hover:text-red-900 flex items-center bg-red-50 px-3 py-1.5 rounded-md transition"
