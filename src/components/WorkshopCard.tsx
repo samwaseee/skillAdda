@@ -17,11 +17,11 @@ export default function WorkshopCard({ workshop }: { workshop: Workshop }) {
       </div>
 
       {/* Card Content */}
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col grow">
         <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
           {workshop.title}
         </h3>
-        <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-2">
+        <p className="text-gray-600 text-sm mb-4 grow line-clamp-2">
           {workshop.shortDescription}
         </p>
 
@@ -41,7 +41,7 @@ export default function WorkshopCard({ workshop }: { workshop: Workshop }) {
           </div>
         </div>
 
-        {/* Footer / CTA */}
+        {/* Footer */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
           <span className="font-bold text-lg text-gray-900">
             {workshop.price === 0 ? 'Free' : `৳${workshop.price}`}
