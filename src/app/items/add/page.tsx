@@ -9,7 +9,7 @@ import { db } from '@/src/lib/firebase';
 import { useAuth } from '@/src/context/AuthContext';
 
 export default function AddWorkshopPage() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -21,6 +21,7 @@ export default function AddWorkshopPage() {
     location: 'Dhaka',
     date: '',
     price: '',
+    instructor: '',
     imageUrl: '',
   });
 
@@ -136,6 +137,20 @@ export default function AddWorkshopPage() {
                     placeholder="0 for free"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Instructor Name *</label>
+                  <input
+                    type="text"
+                    name="instructor"
+                    required
+                    value={formData.instructor}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                    placeholder="e.g., Dr. Hasan Mahmud"
+                  />
+                </div>
+
               </div>
 
               {/* Text Areas */}

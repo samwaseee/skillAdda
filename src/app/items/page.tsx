@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Workshop } from '@/src/lib/data';
 import WorkshopCard from '@/src/components/WorkshopCard';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react'; 
 import { db } from '@/src/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -11,9 +11,15 @@ export default function WorkshopsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('All Locations');
   const [categoryFilter, setCategoryFilter] = useState('All Categories');
-
+  
   const [allWorkshops, setAllWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [searchQuery, locationFilter, categoryFilter]);
 
   useEffect(() => {
     const fetchWorkshops = async () => {
@@ -24,12 +30,11 @@ export default function WorkshopsPage() {
           ...doc.data()
         })) as Workshop[];
 
-        console.log("Data from Firebase:", firestoreData);
         setAllWorkshops(firestoreData);
       } catch (error) {
         console.error("Error fetching from Firestore:", error);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
@@ -40,15 +45,15 @@ export default function WorkshopsPage() {
     if (!allWorkshops) return [];
 
     return allWorkshops.filter((workshop) => {
-
       const matchesSearch = (workshop.title || '').toLowerCase().includes(searchQuery.toLowerCase());
-      
       const matchesLocation = locationFilter === 'All Locations' || workshop.location === locationFilter;
       const matchesCategory = categoryFilter === 'All Categories' || workshop.category === categoryFilter;
 
       return matchesSearch && matchesLocation && matchesCategory;
     });
-  }, [searchQuery, locationFilter, categoryFilter, allWorkshops]); 
+  }, [searchQuery, locationFilter, categoryFilter, allWorkshops]);
+
+  const displayedWorkshops = filteredWorkshops.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -67,8 +72,6 @@ export default function WorkshopsPage() {
           
           {/* Controls: Search & Dropdowns */}
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            
-            {/* Search Bar */}
             <div className="relative grow sm:max-w-xs">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -82,7 +85,6 @@ export default function WorkshopsPage() {
               />
             </div>
 
-            {/* Location Filter */}
             <select 
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
@@ -95,7 +97,6 @@ export default function WorkshopsPage() {
               <option value="Online">Online</option>
             </select>
 
-            {/* Category Filter */}
             <select 
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
@@ -110,18 +111,32 @@ export default function WorkshopsPage() {
           </div>
         </div>
 
-        {/* The main data */}
+        {/* The Grid / Loading State */}
         {isLoading ? (
           <div className="py-20 flex flex-col justify-center items-center space-y-4">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-            <p className="text-gray-500 font-medium">Loading upcoming workshops...</p>
+            <p className="text-gray-500 font-medium">Fetching workshops from cloud...</p>
           </div>
         ) : filteredWorkshops.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredWorkshops.map((workshop) => (
-              <WorkshopCard key={workshop.id} workshop={workshop} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayedWorkshops.map((workshop) => (
+                <WorkshopCard key={workshop.id} workshop={workshop} />
+              ))}
+            </div>
+
+            {/* NEW: Show More Button - Only displays if there are more items to load */}
+            {visibleCount < filteredWorkshops.length && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 6)}
+                  className="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 hover:text-blue-600 transition shadow-sm"
+                >
+                  Show More <ChevronDown className="ml-2 w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
             <h3 className="text-xl font-bold text-gray-900 mb-2">No workshops found</h3>

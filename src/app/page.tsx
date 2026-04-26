@@ -25,7 +25,7 @@ export default function Home() {
               </Link>
               <Link 
                 href="/about" 
-                className="w-full sm:w-auto flex items-center justify-center bg-white text-gray-700 border border-gray-200 px-8 py-3.5 rounded-xl font-bold hover:bg-gray-50 transition"
+                className="w-full sm:w-auto flex items-center justify-center bg-white text-gray-700 border border-gray-200 px-8 py-3.5 rounded-xl font-bold hover:bg-gray-50 transition hover:border-blue-500 shadow-sm"
               >
                 Our Mission
               </Link>
