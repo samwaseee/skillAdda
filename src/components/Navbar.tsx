@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { Righteous } from 'next/font/google';
-import { Menu, User, ChevronDown, LogOut, PlusCircle, LayoutDashboard } from 'lucide-react';
+import { Menu, User, ChevronDown, LogOut, PlusCircle, LayoutDashboard,X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '@/src/lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -18,6 +18,9 @@ const righteousLogo = Righteous({
 export default function Navbar() {
   const { user, loading } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -168,12 +171,41 @@ export default function Navbar() {
             )}
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 text-gray-600 hover:text-blue-600">
-              <Menu className="w-6 h-6" />
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-gray-600 hover:text-blue-600 transition"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </div>
+
+      {/* NEW: Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-6 space-y-2 shadow-lg absolute w-full left-0">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-medium ${isActive('/') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}>
+            Home
+          </Link>
+          <Link href="/items" onClick={() => setIsMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-medium ${isActive('/items') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}>
+            Workshops
+          </Link>
+          <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-medium ${isActive('/about') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}>
+            About
+          </Link>
+          <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-medium ${isActive('/contact') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}>
+            Contact
+          </Link>
+
+          <div className="pt-4 mt-4 border-t border-gray-100">
+            {!loading && !user && 
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex justify-center w-full bg-blue-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+                Login / Register
+              </Link>
+            }
+          </div>
+        </div>
+      )}
     </header>
   );
 }
